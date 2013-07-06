@@ -44,6 +44,7 @@ public class StatusBar extends SettingsPreferenceFragment implements OnPreferenc
     private static final String STATUS_BAR_TRAFFIC = "status_bar_traffic";
     private static final String STATUS_BAR_CARRIER_LABEL = "status_bar_carrier_label";
     private static final String NOTIFICATION_SHADE_DIM = "notification_shade_dim";
+    private static final String STATUS_BAR_USE_SECOND = "status_bar_use_second";
 
     private ListPreference mStatusBarAmPm;
     private ListPreference mStatusBarBattery;
@@ -55,6 +56,7 @@ public class StatusBar extends SettingsPreferenceFragment implements OnPreferenc
     private CheckBoxPreference mStatusBarCarrierLabel;
     private PreferenceCategory mPrefCategoryGeneral;
     private CheckBoxPreference mNotificationShadeDim;
+    private CheckBoxPreference mStatusBarSecond;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,6 +82,9 @@ public class StatusBar extends SettingsPreferenceFragment implements OnPreferenc
                 Settings.System.STATUS_BAR_CARRIER, 0) == 1));
         mStatusBarBrightnessControl.setChecked((Settings.System.getInt(getActivity().getApplicationContext().getContentResolver(),
                 Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL, 0) == 1));
+        mStatusBarSecond = (CheckBoxPreference) prefSet.findPreference(STATUS_BAR_USE_SECOND);
+        mStatusBarSecond.setChecked((Settings.System.getInt(getActivity().getApplicationContext().getContentResolver(),
+                Settings.System.CLOCK_USE_SECOND, 1) == 1));
 
         try {
             if (Settings.System.getInt(getActivity().getApplicationContext().getContentResolver(),
@@ -145,6 +150,13 @@ public class StatusBar extends SettingsPreferenceFragment implements OnPreferenc
             Settings.System.putInt(getActivity().getApplicationContext().getContentResolver(),
                     Settings.System.STATUS_BAR_AM_PM, statusBarAmPm);
             mStatusBarAmPm.setSummary(mStatusBarAmPm.getEntries()[index]);
+            return true;           
+        } else if (preference == mStatusBarSecond) {
+            int val = Integer.parseInt((String) newValue);
+            int index = mStatusBarSecond.findIndexOfValue((String) newValue);
+            result = Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.CLOCK_USE_SECOND, val);
+            mStatusBarSecond.setSummary(mStatusBarSecond.getEntries()[index]);
             return true;
         } else if (preference == mStatusBarBattery) {
             int statusBarBattery = Integer.valueOf((String) newValue);
