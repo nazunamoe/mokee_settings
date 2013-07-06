@@ -157,7 +157,7 @@ public class StatusBar extends SettingsPreferenceFragment implements OnPreferenc
             int val = Integer.parseInt((String) newValue);
             int index = mStatusBarSecond.findIndexOfValue((String) newValue);
             result = Settings.System.putInt(getActivity().getContentResolver(),
-                    Settings.System.STATUS_BAR_USE_SECOND, StatusBarSecond);
+                    Settings.System.STATUS_BAR_USE_SECOND, val);
             mStatusBarSecond.setSummary(mStatusBarSecond.getEntries()[index]);
             return true;
         } else if (preference == mStatusBarBattery) {
