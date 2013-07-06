@@ -84,7 +84,7 @@ public class StatusBar extends SettingsPreferenceFragment implements OnPreferenc
                 Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL, 0) == 1));
         mStatusBarSecond = (CheckBoxPreference) prefSet.findPreference(STATUS_BAR_USE_SECOND);
         mStatusBarSecond.setChecked((Settings.System.getInt(getActivity().getApplicationContext().getContentResolver(),
-                Settings.System.CLOCK_USE_SECOND, 1) == 1));
+                Settings.System.CLOCK_USE_SECOND, 0) == 1));
 
         try {
             if (Settings.System.getInt(getActivity().getApplicationContext().getContentResolver(),
@@ -144,6 +144,8 @@ public class StatusBar extends SettingsPreferenceFragment implements OnPreferenc
     }
 
     public boolean onPreferenceChange(Preference preference, Object newValue) {
+    	      boolean result = false;
+    	      
         if (preference == mStatusBarAmPm) {
             int statusBarAmPm = Integer.valueOf((String) newValue);
             int index = mStatusBarAmPm.findIndexOfValue((String) newValue);
